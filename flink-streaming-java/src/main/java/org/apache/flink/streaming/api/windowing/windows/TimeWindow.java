@@ -114,7 +114,8 @@ public class TimeWindow extends Window {
 	}
 
 	/**
-	 * Returns {@code true} if this window intersects the given window.
+	 * Returns {@code true} if this window intersects the given window
+	 * or if this window is just after or before the given window.
 	 */
 	public boolean intersects(TimeWindow other) {
 		return this.start <= other.end && this.end >= other.start;
@@ -184,11 +185,6 @@ public class TimeWindow extends Window {
 		public void copy(DataInputView source, DataOutputView target) throws IOException {
 			target.writeLong(source.readLong());
 			target.writeLong(source.readLong());
-		}
-
-		@Override
-		public boolean canEqual(Object obj) {
-			return obj instanceof Serializer;
 		}
 
 		// ------------------------------------------------------------------------

@@ -19,6 +19,7 @@
 package org.apache.flink.runtime.state;
 
 import org.apache.flink.annotation.Internal;
+import org.apache.flink.annotation.VisibleForTesting;
 import org.apache.flink.api.common.typeutils.SimpleTypeSerializerSnapshot;
 import org.apache.flink.api.common.typeutils.TypeSerializerSnapshot;
 import org.apache.flink.api.common.typeutils.base.TypeSerializerSingleton;
@@ -32,8 +33,13 @@ import org.apache.flink.util.InstantiationUtil;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * A {@link org.apache.flink.api.common.typeutils.TypeSerializer} that uses Java serialization. This
+ * should not be used for anything.
+ */
 @Internal
-final class JavaSerializer<T extends Serializable> extends TypeSerializerSingleton<T> {
+@VisibleForTesting
+public final class JavaSerializer<T extends Serializable> extends TypeSerializerSingleton<T> {
 
 	private static final long serialVersionUID = 5067491650263321234L;
 
@@ -93,11 +99,6 @@ final class JavaSerializer<T extends Serializable> extends TypeSerializerSinglet
 	public void copy(DataInputView source, DataOutputView target) throws IOException {
 		T tmp = deserialize(source);
 		serialize(tmp, target);
-	}
-
-	@Override
-	public boolean canEqual(Object obj) {
-		return obj instanceof JavaSerializer;
 	}
 
 	// ------------------------------------------------------------------------

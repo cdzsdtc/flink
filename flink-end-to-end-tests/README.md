@@ -23,13 +23,15 @@ and all nightly tests via
 $ FLINK_DIR=<flink dir> flink-end-to-end-tests/run-nightly-tests.sh
 ```
 
-where <flink dir> is a Flink distribution directory.
+where \<flink dir\> is a Flink distribution directory.
 
 You can also run tests individually via
 
 ```
 $ FLINK_DIR=<flink dir> flink-end-to-end-tests/run-single-test.sh your_test.sh arg1 arg2
 ```
+
+**NOTICE**: Please _DON'T_ run the scripts with explicit command like ```sh run-nightly-tests.sh``` since ```#!/usr/bin/env bash``` is specified as the header of the scripts to assure flexibility on different systems.
 
 ### Kubernetes test
 
@@ -64,15 +66,15 @@ Please note that a previously supported pattern where you could assign a value t
 The test runner performs a cleanup after each test case, which includes:
 - Stopping the cluster
 - Killing all task and job managers
-- Reverting config to default (if changed before)
+- Reverting `conf` and `lib` dirs to default
 - Cleaning up log and temp directories
 
-In some cases your test is required to do to some *additional* cleanup, for example shutting down external systems like Kafka or Elasticsearch. In this case it is a common pattern to trap a `test_cleanup` function to `EXIT` like this:
+In some cases your test is required to do some *additional* cleanup, for example shutting down external systems like Kafka or Elasticsearch. In this case you can register a function that will be called on test exit like this:
 
 ```sh
 function test_cleanup {
     # do your custom cleanup here
 }
 
-trap test_cleanup EXIT
+on_exit test_cleanup
 ```

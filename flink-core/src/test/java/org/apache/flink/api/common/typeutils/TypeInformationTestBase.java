@@ -18,16 +18,19 @@
 
 package org.apache.flink.api.common.typeutils;
 
-import java.io.IOException;
 import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.util.InstantiationUtil;
 import org.apache.flink.util.TestLogger;
+
+import org.junit.Test;
+
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
  * Abstract test base for type information.
@@ -54,7 +57,6 @@ public abstract class TypeInformationTestBase<T extends TypeInformation<?>> exte
 
 			// compare among test data
 			for (T otherTypeInfo : testData) {
-				assertTrue("canEqual() returns inconsistent results.", typeInfo.canEqual(otherTypeInfo));
 				// test equality
 				if (typeInfo == otherTypeInfo) {
 					assertTrue("hashCode() returns inconsistent results.", typeInfo.hashCode() == otherTypeInfo.hashCode());
